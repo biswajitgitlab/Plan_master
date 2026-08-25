@@ -185,23 +185,57 @@
                         $qPercent = $qLimit > 0 ? min(100, round(($roleRegCount / $qLimit) * 100)) : 0;
                         $isFull = $qLimit > 0 && $roleRegCount >= $qLimit;
                         $startDateFormatted = date('M d, Y', strtotime($event->start_date));
+
+                        $userRegStatus = null;
+                        if ($this->session->userdata('user_id') && !empty($event->registrations)) {
+                            foreach ($event->registrations as $r) {
+                                if ($r->user_id == $this->session->userdata('user_id')) {
+                                    $userRegStatus = $r->status;
+                                    break;
+                                }
+                            }
+                        }
                     ?>
                     <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
                         <?php if ($event->image_path): ?>
                             <div class="h-44 w-full relative bg-surface-variant overflow-hidden">
                                 <img src="<?= base_url('uploads/' . $event->image_path); ?>" alt="<?= htmlspecialchars($event->name); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                                <div class="absolute top-3 right-3">
+                                <div class="absolute top-3 right-3 flex flex-col gap-2 items-end">
                                     <span class="px-3 py-1 text-xs rounded-full font-bold shadow-md <?= $isFull ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white'; ?>">
                                         <?= $isFull ? 'Waitlist Open' : 'Registration Open'; ?>
                                     </span>
+                                    <?php if ($userRegStatus): ?>
+                                        <?php
+                                            $badgeClass = 'bg-blue-500';
+                                            if ($userRegStatus === 'approved') $badgeClass = 'bg-emerald-600';
+                                            if ($userRegStatus === 'waitlisted') $badgeClass = 'bg-amber-500';
+                                            if ($userRegStatus === 'rejected') $badgeClass = 'bg-red-500';
+                                        ?>
+                                        <span class="px-3 py-1 text-xs rounded-full font-bold shadow-md text-white <?= $badgeClass; ?>">
+                                            Status: <?= ucfirst($userRegStatus); ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php else: ?>
                             <div class="h-36 w-full bg-gradient-to-r from-primary-container/20 via-primary/10 to-surface-container-high flex items-center justify-between p-6 relative">
                                 <span class="material-symbols-outlined text-5xl text-primary/30">event</span>
-                                <span class="px-3 py-1 text-xs rounded-full font-bold shadow-sm <?= $isFull ? 'bg-amber-500 text-white' : 'bg-primary text-white'; ?>">
-                                    <?= $isFull ? 'Waitlist Open' : 'Seats Available'; ?>
-                                </span>
+                                <div class="absolute top-3 right-3 flex flex-col gap-2 items-end">
+                                    <span class="px-3 py-1 text-xs rounded-full font-bold shadow-sm <?= $isFull ? 'bg-amber-500 text-white' : 'bg-primary text-white'; ?>">
+                                        <?= $isFull ? 'Waitlist Open' : 'Seats Available'; ?>
+                                    </span>
+                                    <?php if ($userRegStatus): ?>
+                                        <?php
+                                            $badgeClass = 'bg-blue-500';
+                                            if ($userRegStatus === 'approved') $badgeClass = 'bg-emerald-600';
+                                            if ($userRegStatus === 'waitlisted') $badgeClass = 'bg-amber-500';
+                                            if ($userRegStatus === 'rejected') $badgeClass = 'bg-red-500';
+                                        ?>
+                                        <span class="px-3 py-1 text-xs rounded-full font-bold shadow-sm text-white <?= $badgeClass; ?>">
+                                            Status: <?= ucfirst($userRegStatus); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         <?php endif; ?>
 
