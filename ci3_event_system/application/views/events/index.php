@@ -273,7 +273,7 @@
                                 <?= !empty($event->approval_bands) ? count($event->approval_bands) . '-Tier Approval' : 'Direct Sign-Up'; ?>
                             </span>
                             <a href="<?= site_url('events/detail/' . $event->id); ?>" class="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline">
-                                View Event & Register →
+                                <?= $userRegStatus ? 'View Event →' : 'View Event & Register →'; ?>
                             </a>
                         </div>
                     </div>
