@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EventCentral - Create Event</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#d8e2ff",
+                    "on-secondary-fixed-variant": "#3a485b",
+                    "on-tertiary-fixed": "#341100",
+                    "tertiary-fixed-dim": "#ffb691",
+                    "surface-container": "#eceef0",
+                    "surface-container-high": "#e6e8ea",
+                    "primary-container": "#1a73e8",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary-fixed-variant": "#004493",
+                    "error-container": "#ffdad6",
+                    "on-surface": "#191c1e",
+                    "primary-fixed-dim": "#adc7ff",
+                    "on-surface-variant": "#414754",
+                    "secondary-fixed": "#d5e3fc",
+                    "inverse-surface": "#2d3133",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e0e3e5",
+                    "secondary-container": "#d5e3fc",
+                    "tertiary": "#9e4300",
+                    "on-background": "#191c1e",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#adc7ff",
+                    "primary": "#005bbf",
+                    "on-secondary-container": "#57657a",
+                    "secondary-fixed-dim": "#b9c7df",
+                    "surface-bright": "#f7f9fb",
+                    "background": "#f7f9fb",
+                    "surface-container-highest": "#e0e3e5",
+                    "outline-variant": "#c1c6d6",
+                    "on-tertiary-fixed-variant": "#783100",
+                    "on-tertiary-container": "#0e0200",
+                    "on-error": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#ffffff",
+                    "tertiary-fixed": "#ffdbcb",
+                    "outline": "#727785",
+                    "on-primary-fixed": "#001a41",
+                    "secondary": "#515f74",
+                    "on-secondary-fixed": "#0d1c2e",
+                    "tertiary-container": "#c55500",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#005bc0",
+                    "surface": "#f7f9fb",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "container-padding": "24px",
+                    "stack-sm": "8px",
+                    "gutter": "16px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    }
+            }
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg antialiased flex flex-col md:flex-row min-h-screen">
+<!-- NavigationDrawer (Desktop SideNav) -->
+<nav class="hidden md:flex h-full w-72 fixed left-0 top-0 bg-surface-container flex-col p-4 gap-stack-sm z-40 border-r border-outline-variant">
+<div class="flex items-center gap-2 mb-stack-lg px-2 pt-2">
+<span class="material-symbols-outlined text-primary text-[32px]" data-weight="fill">event_available</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">EventCentral</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 mb-stack-md bg-surface-container-high rounded-lg">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a female event coordinator in her 30s. She is smiling confidently, wearing a modern business casual blazer. The background is a slightly blurred modern office setting with bright, natural lighting. The image style is clean, corporate, and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQP4nmnJYu5VRDlmo1DHDYPqC9w6Q4w9I-E139R8kO5Sr4uM-SBPpK8MmXoiW7mh7PGDNjECXCD6UYGypP8G2TyVdiNzPY_vxuZc5Zb7MyKeFN4qo1OA6iJ4GQuL6axHQAqRYr9Dr1bF1rudGxi8Y3HLvhqGLT9K_lMNE3JySGKcreaqOY0c7Gn6WfGfxsfqIxfZR8-nOxxVKqr2YY1eqRygDpMaasg1a6pMlE9MbtEuo-vcG854VA"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Alex Coordinator</span>
+<span class="text-xs text-on-surface-variant">Admin Role</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary-container text-on-primary-container transition-all duration-200 ease-in-out shadow-sm" href="#">
+<span class="material-symbols-outlined" data-weight="fill">calendar_month</span>
+<span class="font-label-md text-label-md">Events</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">fact_check</span>
+<span class="font-label-md text-label-md">Approvals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-72 flex flex-col min-h-screen">
+<!-- TopAppBar (Mobile) -->
+<header class="md:hidden flex justify-between items-center px-container-padding h-16 w-full bg-surface-container-lowest sticky top-0 z-40 border-b border-outline-variant shadow-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-weight="fill">event_available</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">EventCentral</span>
+</div>
+<img class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a female event coordinator in her 30s. She is smiling confidently, wearing a modern business casual blazer. The background is a slightly blurred modern office setting with bright, natural lighting. The image style is clean, corporate, and trustworthy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFhBkOkKU7xBYavEl0wrajUn6-4O5cfPiF9ox57RjwKn2BGiAAU7D6-c3jLFujMP0CP80tITkODpxNYGPstziaGSAxWkvLc2BBnR9CM2ersCofsF1HUJKkHokyY14TsrWI6UuSbaVGy8kLQwWpMxe1vGQiyI3f4zJ-1XQ_6aoWafuxOrNwXU0IUglJwuRjgX_ZZ9l-BG_H_4eWPMSf9SFD3DK_aPS9th4XEH-PvXTSDWFwy820an03"/>
+</header>
+<!-- Canvas -->
+<div class="p-container-padding max-w-[1000px] w-full mx-auto pb-32 md:pb-stack-lg">
+<div class="mb-stack-lg flex items-center gap-4">
+<a class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant inline-flex items-center justify-center" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<div>
+<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Create New Event</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Configure event details, capacities, and approval workflows.</p>
+</div>
+</div>
+<form class="space-y-stack-lg">
+<!-- Section 1: Basic Details -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-container-padding shadow-sm">
+<div class="border-b border-outline-variant pb-4 mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span>
+                            Event Details
+                        </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="eventTitle">Event Title</label>
+<input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim transition-all" id="eventTitle" placeholder="e.g., Annual Tech Symposium 2024" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="eventDesc">Description</label>
+<textarea class="w-full p-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim transition-all resize-y" id="eventDesc" placeholder="Provide a detailed description of the event..." rows="4"></textarea>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="startDate">Start Date &amp; Time</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">calendar_today</span>
+<input class="w-full h-10 pl-10 pr-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim transition-all" id="startDate" type="datetime-local"/>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="endDate">End Date &amp; Time</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">event</span>
+<input class="w-full h-10 pl-10 pr-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim transition-all" id="endDate" type="datetime-local"/>
+</div>
+</div>
+<div class="md:col-span-2">
+<label class="block font-label-md text-label-md text-on-surface mb-2" for="location">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">location_on</span>
+<input class="w-full h-10 pl-10 pr-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim transition-all" id="location" placeholder="Building A, Room 101 or Virtual Link" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Quota Management -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-container-padding shadow-sm">
+<div class="border-b border-outline-variant pb-4 mb-6 flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">groups</span>
+                            Quota Management
+                        </h2>
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded-full border border-outline-variant">
+<span class="font-label-md text-label-md text-on-surface-variant">Total Capacity:</span>
+<span class="font-body-md text-body-md font-bold text-on-surface" id="totalCapacity">0</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Define participant limits based on organizational roles. Leave blank for unlimited (within total capacity).</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Employee Quota -->
+<div class="border border-outline-variant rounded-lg p-4 bg-surface-bright hover:border-primary transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+<label class="flex items-center gap-2 font-label-md text-label-md text-on-surface mb-3" for="quotaEmployee">
+<span class="material-symbols-outlined text-secondary">badge</span>
+                                Employee
+                            </label>
+<input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none" id="quotaEmployee" min="0" placeholder="e.g., 50" type="number"/>
+</div>
+<!-- External Quota -->
+<div class="border border-outline-variant rounded-lg p-4 bg-surface-bright hover:border-primary transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+<label class="flex items-center gap-2 font-label-md text-label-md text-on-surface mb-3" for="quotaExternal">
+<span class="material-symbols-outlined text-secondary">public</span>
+                                External
+                            </label>
+<input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none" id="quotaExternal" min="0" placeholder="e.g., 20" type="number"/>
+</div>
+<!-- Manager Quota -->
+<div class="border border-outline-variant rounded-lg p-4 bg-surface-bright hover:border-primary transition-colors focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+<label class="flex items-center gap-2 font-label-md text-label-md text-on-surface mb-3" for="quotaManager">
+<span class="material-symbols-outlined text-secondary">manage_accounts</span>
+                                Manager
+                            </label>
+<input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none" id="quotaManager" min="0" placeholder="e.g., 10" type="number"/>
+</div>
+</div>
+</section>
+<!-- Section 3: Approval Workflow -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant p-container-padding shadow-sm">
+<div class="border-b border-outline-variant pb-4 mb-6 flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+                            Approval Workflow
+                        </h2>
+<button class="text-primary hover:bg-primary-fixed rounded-full p-2 transition-colors flex items-center justify-center" type="button">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Set the sequence of approvers for this event. Drag to reorder.</p>
+<div class="space-y-3">
+<!-- Step 1 -->
+<div class="flex items-center gap-3 bg-surface-bright border border-outline-variant rounded-lg p-3 group">
+<span class="material-symbols-outlined text-outline cursor-grab active:cursor-grabbing hover:text-on-surface">drag_indicator</span>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label-md text-label-md">1</div>
+<div class="flex-1">
+<select class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary transition-all">
+<option>Direct Manager</option>
+<option selected="">Department Head</option>
+<option>Finance Director</option>
+<option>Security Officer</option>
+</select>
+</div>
+<button class="text-outline hover:text-error transition-colors p-2 rounded-full hover:bg-error-container" type="button">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<!-- Step 2 -->
+<div class="flex items-center gap-3 bg-surface-bright border border-outline-variant rounded-lg p-3 group">
+<span class="material-symbols-outlined text-outline cursor-grab active:cursor-grabbing hover:text-on-surface">drag_indicator</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-label-md text-label-md">2</div>
+<div class="flex-1">
+<select class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface focus:outline-none focus:border-primary transition-all">
+<option>Direct Manager</option>
+<option>Department Head</option>
+<option selected="">Finance Director</option>
+<option>Security Officer</option>
+</select>
+</div>
+<button class="text-outline hover:text-error transition-colors p-2 rounded-full hover:bg-error-container" type="button">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Action Bar -->
+<div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-outline-variant">
+<button class="h-10 px-6 rounded-full border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors" type="button">
+                        Cancel
+                    </button>
+<button class="h-10 px-6 rounded-full bg-surface-container-high text-on-surface font-label-md text-label-md hover:bg-surface-container-highest transition-colors" type="button">
+                        Save as Draft
+                    </button>
+<button class="h-10 px-8 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-on-primary-fixed-variant transition-colors shadow-sm" type="submit">
+                        Create Event
+                    </button>
+</div>
+</form>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container-lowest border-t border-outline-variant shadow-lg rounded-t-xl pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 transition-transform rounded-lg p-1 w-16" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-md text-[10px] mt-1">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-weight="fill">event_note</span>
+<span class="font-label-md text-[10px] mt-1">My Events</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 transition-transform rounded-lg p-1 w-16" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-md text-[10px] mt-1">Inbox</span>
+</a>
+</nav>
+<script>
+        // Simple logic to calculate total capacity
+        const inputs = [
+            document.getElementById('quotaEmployee'),
+            document.getElementById('quotaExternal'),
+            document.getElementById('quotaManager')
+        ];
+        const totalDisplay = document.getElementById('totalCapacity');
+
+        function calculateTotal() {
+            let total = 0;
+            inputs.forEach(input => {
+                const val = parseInt(input.value) || 0;
+                total += val;
+            });
+            totalDisplay.textContent = total;
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+    </script>
+</body></html>

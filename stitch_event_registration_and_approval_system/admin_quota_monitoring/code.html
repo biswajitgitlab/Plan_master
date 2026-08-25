@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin: Quota Monitoring</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#d5e3fc",
+                        "tertiary": "#9e4300",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c1c6d6",
+                        "on-primary-fixed-variant": "#004493",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-fixed-dim": "#ffb691",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#414754",
+                        "on-tertiary-fixed-variant": "#783100",
+                        "on-secondary-container": "#57657a",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-tertiary-container": "#0e0200",
+                        "surface-container": "#eceef0",
+                        "tertiary-container": "#c55500",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "outline": "#727785",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "primary-container": "#1a73e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#d5e3fc",
+                        "on-tertiary-fixed": "#341100",
+                        "secondary": "#515f74",
+                        "on-surface": "#191c1e",
+                        "surface-container-low": "#f2f4f6",
+                        "on-background": "#191c1e",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "inverse-primary": "#adc7ff",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#005bbf",
+                        "primary-fixed-dim": "#adc7ff",
+                        "on-primary-fixed": "#001a41",
+                        "background": "#f7f9fb",
+                        "surface-tint": "#005bc0",
+                        "error-container": "#ffdad6",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-bright": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed": "#d8e2ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-padding": "24px",
+                        "stack-lg": "32px",
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-[80px] md:pb-0">
+<!-- TopAppBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-container-lowest text-primary dark:text-inverse-primary font-headline-md text-headline-md w-full top-0 sticky border-b border-outline-variant dark:border-outline-variant shadow-sm z-50">
+<div class="flex justify-between items-center px-container-padding h-16 w-full max-w-[1440px] mx-auto">
+<div class="flex items-center gap-3 cursor-pointer hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors active:opacity-80 p-2 rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_available</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">EventCentral</span>
+</div>
+<!-- Desktop Navigation (Hidden on Mobile) -->
+<nav class="hidden md:flex gap-6 h-full">
+<a class="flex items-center h-full px-4 text-primary dark:text-inverse-primary font-bold border-b-2 border-primary hover:bg-surface-container-low transition-colors" href="#">Dashboard</a>
+<a class="flex items-center h-full px-4 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">Events</a>
+<a class="flex items-center h-full px-4 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">Approvals</a>
+<a class="flex items-center h-full px-4 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant cursor-pointer active:opacity-80">
+<img alt="Profile Picture" class="w-full h-full object-cover" data-alt="A small circular profile picture of an administrative user. They are wearing professional business casual attire in a well-lit modern office setting. The style is a clean corporate headshot with a light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACDXehA70vxlUwk80atrGAV46qTQ4PAp_V5t-ZBFEgsy5cvOn7qN0DPxVoSjdsiLvSWQaGvKrdgjM85Kw7YOBUM5WXmPlem5yd8irygewy9lPzpgYmWYH_nZNt8JlTlNkBwQJSCG98zezlbbzdGgJkYA48WnP3xm7ms_Tf-xRtAq7pkcLzhIoET3Dbszi0HJaN4BLg5jK2DRTEc6OZ_BaISz8OQDMcR6bQy0VpY_oXfLNf51ksSZ4f"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1440px] mx-auto px-container-padding py-stack-lg flex flex-col gap-stack-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2">Admin: Quota Monitoring</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Track registration capacities and role allocations across all active events.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+<div class="relative flex-grow sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 font-body-md text-body-md transition-all" placeholder="Search events..." type="text"/>
+</div>
+<button class="flex items-center justify-center gap-2 px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    Filter
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout for Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Card 1: Critical Capacity -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col relative group">
+<div class="absolute top-0 left-0 w-full h-1 bg-error"></div>
+<div class="p-6 flex flex-col gap-4 flex-grow">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Annual Tech Symposium</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Oct 15, 2024
+                            </p>
+</div>
+<span class="inline-flex items-center px-2 py-1 bg-error-container text-on-error-container rounded-full font-label-md text-label-md">
+                            Action Required
+                        </span>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span class="text-on-surface">Overall Capacity</span>
+<span class="text-error font-bold">95% (190/200)</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-error h-2 rounded-full" style="width: 95%"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-surface-container-highest">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Employee</span>
+<span class="font-body-md text-body-md text-on-surface">140/150</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-primary h-1 rounded-full" style="width: 93%"></div></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Manager</span>
+<span class="font-body-md text-body-md text-error">35/30</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-error h-1 rounded-full" style="width: 100%"></div></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">External</span>
+<span class="font-body-md text-body-md text-on-surface">15/20</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-primary h-1 rounded-full" style="width: 75%"></div></div>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-auto text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-body-md text-body-md">12 on waitlist</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-6 py-3 border-t border-outline-variant flex justify-end gap-3">
+<button class="font-label-md text-label-md text-primary hover:bg-primary/10 px-3 py-1.5 rounded transition-colors">Manage Waitlist</button>
+<button class="font-label-md text-label-md bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container px-3 py-1.5 rounded transition-colors">Edit Quotas</button>
+</div>
+</div>
+<!-- Card 2: Warning Capacity -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col relative group">
+<div class="absolute top-0 left-0 w-full h-1 bg-tertiary"></div>
+<div class="p-6 flex flex-col gap-4 flex-grow">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">Leadership Summit Q4</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Nov 02, 2024
+                            </p>
+</div>
+<span class="inline-flex items-center px-2 py-1 bg-tertiary-container text-on-tertiary-container rounded-full font-label-md text-label-md">
+                            Nearing Limit
+                        </span>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span class="text-on-surface">Overall Capacity</span>
+<span class="text-tertiary font-bold">85% (85/100)</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-tertiary h-2 rounded-full" style="width: 85%"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-surface-container-highest">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Employee</span>
+<span class="font-body-md text-body-md text-on-surface">45/50</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-tertiary h-1 rounded-full" style="width: 90%"></div></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Manager</span>
+<span class="font-body-md text-body-md text-on-surface">28/30</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-tertiary h-1 rounded-full" style="width: 93%"></div></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">External</span>
+<span class="font-body-md text-body-md text-on-surface">12/20</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-primary h-1 rounded-full" style="width: 60%"></div></div>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-auto text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-body-md text-body-md">5 on waitlist</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-6 py-3 border-t border-outline-variant flex justify-end gap-3">
+<button class="font-label-md text-label-md text-primary hover:bg-primary/10 px-3 py-1.5 rounded transition-colors">Manage Waitlist</button>
+<button class="font-label-md text-label-md bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container px-3 py-1.5 rounded transition-colors">Edit Quotas</button>
+</div>
+</div>
+<!-- Card 3: Healthy Capacity -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm overflow-hidden flex flex-col relative group">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="p-6 flex flex-col gap-4 flex-grow">
+<div class="flex justify-between items-start gap-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">New Hire Orientation</h2>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span> Oct 20, 2024
+                            </p>
+</div>
+<span class="inline-flex items-center px-2 py-1 bg-surface-container-high text-on-surface rounded-full font-label-md text-label-md">
+                            On Track
+                        </span>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md mb-2">
+<span class="text-on-surface">Overall Capacity</span>
+<span class="text-primary font-bold">40% (20/50)</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 border-y border-surface-container-highest">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Employee</span>
+<span class="font-body-md text-body-md text-on-surface">18/40</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-primary h-1 rounded-full" style="width: 45%"></div></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">Manager</span>
+<span class="font-body-md text-body-md text-on-surface">2/5</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-primary h-1 rounded-full" style="width: 40%"></div></div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface-variant">External</span>
+<span class="font-body-md text-body-md text-on-surface">0/5</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1 mt-1"><div class="bg-surface-variant h-1 rounded-full" style="width: 0%"></div></div>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-auto text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-body-md text-body-md">0 on waitlist</span>
+</div>
+</div>
+<div class="bg-surface-container-low px-6 py-3 border-t border-outline-variant flex justify-end gap-3">
+<button class="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container px-3 py-1.5 rounded transition-colors opacity-50 cursor-not-allowed">Manage Waitlist</button>
+<button class="font-label-md text-label-md bg-white border border-outline-variant text-on-surface-variant hover:bg-surface-container px-3 py-1.5 rounded transition-colors">Edit Quotas</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant shadow-lg rounded-t-xl text-primary dark:text-inverse-primary font-label-md text-label-md">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 transition-transform p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span>Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 hover:bg-surface-container-high active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">event_note</span>
+<span>My Events</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high active:scale-95 transition-transform p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">notifications</span>
+<span>Inbox</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,34 @@
+# Dependencies
+/node_modules
+/vendor
+event_system/node_modules
+event_system/vendor
+
+# Environment & Config
+.env
+.env.*
+event_system/.env
+event_system/.env.*
+!.env.example
+!event_system/.env.example
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build & Logs
+*.log
+event_system/storage/*.log
+event_system/public/build
+event_system/public/storage
+event_system/storage/framework/cache/*
+event_system/storage/framework/sessions/*
+event_system/storage/framework/views/*
+
+# Testing & Cache
+.phpunit.result.cache
+.phpunit.cache/
+event_system/.phpunit.result.cache
+event_system/.phpunit.cache/
