@@ -126,6 +126,11 @@
                 <a href="<?= site_url('events?availability=all&sort=' . urlencode($sort) . '&search=' . urlencode($search)); ?>" class="px-3 py-1.5 text-xs font-bold rounded-full transition-all <?= $availability_filter === 'all' ? 'bg-primary text-white shadow-sm' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'; ?>">
                     All Events
                 </a>
+                <?php if ($this->session->userdata('user_id')): ?>
+                <a href="<?= site_url('events?availability=registered&sort=' . urlencode($sort) . '&search=' . urlencode($search)); ?>" class="px-3 py-1.5 text-xs font-bold rounded-full transition-all <?= $availability_filter === 'registered' ? 'bg-blue-600 text-white shadow-sm' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'; ?>">
+                    My Registrations
+                </a>
+                <?php endif; ?>
                 <a href="<?= site_url('events?availability=seats_available&sort=' . urlencode($sort) . '&search=' . urlencode($search)); ?>" class="px-3 py-1.5 text-xs font-bold rounded-full transition-all <?= $availability_filter === 'seats_available' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'; ?>">
                     Seats Available
                 </a>

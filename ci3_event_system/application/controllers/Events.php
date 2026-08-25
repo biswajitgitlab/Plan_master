@@ -15,7 +15,8 @@ class Events extends CI_Controller {
         $limit = 6;
         $offset = ($page - 1) * $limit;
 
-        $res = $this->Event_model->get_paginated_events($search, $availability_filter, $sort, $limit, $offset);
+        $user_id = $this->session->userdata('user_id');
+        $res = $this->Event_model->get_paginated_events($search, $availability_filter, $sort, $limit, $offset, $user_id);
 
         $data['events'] = $res['events'];
         $data['total_records'] = $res['total'];

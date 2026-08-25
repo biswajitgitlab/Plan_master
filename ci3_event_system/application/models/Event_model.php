@@ -11,7 +11,7 @@ class Event_model extends CI_Model {
         return $this->get_paginated_events($search, 'all', 'start_date_asc', 1000, 0)['events'];
     }
 
-    public function get_paginated_events($search = NULL, $filter = 'all', $sort = 'start_date_asc', $limit = 6, $offset = 0) {
+    public function get_paginated_events($search = NULL, $filter = 'all', $sort = 'start_date_asc', $limit = 6, $offset = 0, $user_id = NULL) {
         $this->db->reset_query();
 
         if (!empty($search)) {
@@ -50,9 +50,13 @@ class Event_model extends CI_Model {
                 }
             }
             $activeRegs = 0;
+            $is_registered = false;
             if (!empty($event->registrations)) {
                 foreach ($event->registrations as $r) {
                     if ($r->status !== 'rejected') $activeRegs++;
+                    if ($user_id && $r->user_id == $user_id) {
+                        $is_registered = true;
+                    }
                 }
             }
             $pct = $totalCap > 0 ? min(100, round(($activeRegs / $totalCap) * 100)) : 0;
@@ -61,7 +65,11 @@ class Event_model extends CI_Model {
             $event->active_regs = $activeRegs;
 
             // Apply filter
-            if ($filter === 'critical' || $filter === 'high_demand' || $filter === 'waitlist_open') {
+            if ($filter === 'registered') {
+                if ($is_registered) {
+                    $filtered[] = $event;
+                }
+            } elseif ($filter === 'critical' || $filter === 'high_demand' || $filter === 'waitlist_open') {
                 if ($pct >= 90) {
                     $filtered[] = $event;
                 }
