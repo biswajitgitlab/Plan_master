@@ -1,215 +1,541 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Event - CodeIgniter 3</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Create Event - Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#d8e2ff",
+                        "primary-container": "#1a73e8",
+                        "on-primary-container": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#414754",
+                        "surface-container": "#eceef0",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "background": "#f7f9fb",
+                        "outline-variant": "#c1c6d6",
+                        "primary": "#005bbf",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#9e4300"
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    spacing: { "stack-md": "16px", "stack-lg": "32px", "container-padding": "24px", "stack-sm": "8px" },
+                    fontFamily: { "headline-lg": ["Inter"], "headline-md": ["Inter"], "body-md": ["Inter"], "label-md": ["Inter"] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined[data-weight="fill"] { font-variation-settings: 'FILL' 1; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen">
+<body class="bg-[#f8fafc] text-on-surface font-body-md antialiased flex flex-col md:flex-row min-h-screen bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] relative overflow-x-hidden">
+    <!-- Ambient Glow Orbs -->
+    <div class="fixed top-0 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="fixed bottom-0 left-72 w-[500px] h-[500px] bg-primary-container/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-<nav class="border-b border-slate-800 bg-slate-950/80 px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-        <a href="<?= base_url('index.php/admin'); ?>" class="text-xl font-bold text-indigo-400">EventCentral</a>
-        <span class="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded-full border border-indigo-500/30">Create Event</span>
-    </div>
-</nav>
-
-<div class="max-w-4xl mx-auto px-6 py-8">
-    <div class="mb-6">
-        <a href="<?= base_url('index.php/admin'); ?>" class="text-xs text-indigo-400 hover:underline">&larr; Back to Admin Dashboard</a>
-        <h1 class="text-2xl font-bold mt-2">Create New Event</h1>
-    </div>
-
-    <form action="<?= base_url('index.php/admin/store_event'); ?>" method="POST" id="eventForm" class="space-y-8">
-        
-        <!-- Section 1: Details -->
-        <div class="bg-slate-800 border border-slate-700/80 rounded-xl p-6 shadow-md space-y-4">
-            <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2">1. Basic Event Details</h2>
-            <div>
-                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Event Name</label>
-                <input type="text" name="name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
-            </div>
-            <div>
-                <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Description</label>
-                <textarea name="description" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500"></textarea>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">Start Date</label>
-                    <input type="date" name="start_date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+    <!-- Desktop SideNav -->
+    <nav class="hidden md:flex h-full w-72 fixed left-0 top-0 bg-surface-container/90 backdrop-blur-xl flex-col p-4 gap-stack-sm z-40 border-r border-outline-variant/60 shadow-sm">
+        <div class="flex items-center gap-2 mb-stack-lg px-2 pt-2">
+            <span class="material-symbols-outlined text-primary text-[32px]" data-weight="fill">event_available</span>
+            <span class="font-headline-md font-bold text-primary">EventCentral</span>
+        </div>
+        <div class="flex items-center justify-between px-4 py-3 mb-stack-md bg-surface-container-high rounded-lg">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold flex-shrink-0">
+                    <?= strtoupper(substr($this->session->userdata('name') ? $this->session->userdata('name') : 'A', 0, 1)); ?>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">End Date</label>
-                    <input type="date" name="end_date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+                <div class="flex flex-col min-w-0">
+                    <span class="font-label-md text-on-surface truncate"><?= $this->session->userdata('name') ? $this->session->userdata('name') : 'Admin User'; ?></span>
+                    <span class="text-xs text-on-surface-variant"><?= $this->session->userdata('role') ? $this->session->userdata('role') : 'Admin'; ?></span>
                 </div>
+            </div>
+            <a href="<?= site_url('auth/logout'); ?>" title="Logout" class="text-on-surface-variant hover:text-error transition-colors p-1">
+                <span class="material-symbols-outlined text-[20px]">logout</span>
+            </a>
+        </div>
+        <div class="flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all" href="<?= site_url('admin'); ?>">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-label-md">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-full bg-primary-container text-on-primary-container font-label-md" href="<?= site_url('admin/events'); ?>">
+                <span class="material-symbols-outlined" data-weight="fill">calendar_month</span>
+                <span>Events</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-all" href="<?= site_url('approvals'); ?>">
+                <span class="material-symbols-outlined">fact_check</span>
+                <span class="font-label-md">Approvals</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 md:ml-72 p-container-padding max-w-[1000px] w-full mx-auto pb-24 md:pb-container-padding">
+        <div class="flex items-center gap-4 mb-stack-lg pt-4">
+            <a href="<?= site_url('admin/events'); ?>" class="w-9 h-9 rounded-full bg-surface-container-lowest border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            </a>
+            <div>
+                <h1 class="font-headline-lg text-2xl md:text-3xl font-bold text-on-surface mb-1">Create New Event</h1>
+                <p class="font-body-md text-on-surface-variant">Configure event details, capacity quotas, and approval workflows.</p>
             </div>
         </div>
 
-        <!-- Section 2: Quotas per Role -->
-        <div class="bg-slate-800 border border-slate-700/80 rounded-xl p-6 shadow-md">
-            <div class="flex items-center justify-between border-b border-slate-700 pb-2 mb-4">
-                <h2 class="text-lg font-semibold text-white">2. Participant Quotas per Role</h2>
-                <button type="button" id="addQuotaRow" class="text-xs bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 px-3 py-1.5 rounded border border-indigo-500/40">
-                    + Add Role Quota
-                </button>
-            </div>
-            <div id="quotaContainer" class="space-y-3">
-                <div class="grid grid-cols-12 gap-3 items-center quota-row">
-                    <div class="col-span-6">
-                        <select name="quota_role[]" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                            <option value="Employee">Employee</option>
-                            <option value="Manager">Manager</option>
-                            <option value="External">External</option>
-                            <option value="User">User</option>
-                        </select>
+        <form class="space-y-6" method="POST" action="<?= site_url('admin/store_event'); ?>" enctype="multipart/form-data">
+            <!-- Section 1: Event Details -->
+            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 sm:p-8 shadow-sm">
+                <div class="border-b border-outline-variant pb-4 mb-6">
+                    <h2 class="font-headline-md text-lg font-bold text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">info</span>
+                        Event Details
+                    </h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+                    <!-- Event Banner Image Upload -->
+                    <div class="md:col-span-2">
+                        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5">Event Banner / Cover Image</label>
+                        <div class="relative border-2 border-dashed border-outline-variant hover:border-primary rounded-xl p-4 bg-surface-container-low/40 flex flex-col items-center justify-center text-center transition-all cursor-pointer group" id="imageDropZone">
+                            <input type="file" name="image" id="eventImageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"/>
+                            <div id="imagePreviewContainer" class="hidden mb-2 relative w-full h-44 rounded-lg overflow-hidden border border-outline-variant">
+                                <img id="imagePreview" src="" alt="Event Image Preview" class="w-full h-full object-cover"/>
+                                <div class="absolute bottom-2 right-2 bg-black/70 backdrop-blur text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">edit</span> Change Image
+                                </div>
+                            </div>
+                            <div id="imageUploadPlaceholder" class="flex flex-col items-center py-4">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">add_photo_alternate</span>
+                                </div>
+                                <p class="text-xs font-bold text-on-surface">Click or drag an image here to upload</p>
+                                <p class="text-[11px] text-on-surface-variant mt-0.5">Supports PNG, JPG, WEBP or GIF (Max 5MB)</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-span-5">
-                        <input type="number" name="quota_limit[]" placeholder="Capacity Limit" value="10" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
+
+                    <div class="md:col-span-2">
+                        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5" for="eventTitle">Event Title *</label>
+                        <input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="eventTitle" name="name" required placeholder="e.g., Annual Tech Summit 2026" type="text"/>
                     </div>
-                    <div class="col-span-1 text-center">
-                        <button type="button" class="remove-row text-red-400 hover:text-red-300 text-sm">&times;</button>
+                    <div class="md:col-span-2">
+                        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5" for="eventDesc">Description</label>
+                        <textarea class="w-full p-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-y" id="eventDesc" name="description" placeholder="Provide a detailed description of the event..." rows="4"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5" for="startDate">Start Date & Time *</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">calendar_today</span>
+                            <input class="w-full h-10 pl-10 pr-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="startDate" name="start_date" required type="datetime-local"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5" for="endDate">End Date & Time *</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">event</span>
+                            <input class="w-full h-10 pl-10 pr-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="endDate" name="end_date" required type="datetime-local"/>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5" for="location">Location</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">location_on</span>
+                            <input class="w-full h-10 pl-10 pr-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" id="location" name="location" placeholder="Grand Auditorium, HQ North Building or Virtual Link" type="text"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <!-- Section 3: Approval Bands -->
-        <div class="bg-slate-800 border border-slate-700/80 rounded-xl p-6 shadow-md">
-            <div class="flex items-center justify-between border-b border-slate-700 pb-2 mb-4">
-                <h2 class="text-lg font-semibold text-white">3. Approval Bands (Sequence)</h2>
-                <button type="button" id="addBandRow" class="text-xs bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 px-3 py-1.5 rounded border border-indigo-500/40">
-                    + Add Approval Level
+            <!-- Section 2: Quota Management -->
+            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 sm:p-8 shadow-sm">
+                <div class="border-b border-outline-variant pb-4 mb-6 flex justify-between items-center flex-wrap gap-2">
+                    <h2 class="font-headline-md text-lg font-bold text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">groups</span>
+                        Quota Management
+                    </h2>
+                    <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/60">
+                        <span class="font-label-md text-xs font-semibold text-on-surface-variant">Total Capacity:</span>
+                        <span class="font-body-md text-sm font-bold text-primary" id="totalCapacity">0</span>
+                    </div>
+                </div>
+                <p class="text-xs text-on-surface-variant mb-6">Define participant limits based on organizational roles. Leave blank for unlimited.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="border border-outline-variant rounded-xl p-4 bg-surface-container-low/50 hover:border-primary transition-colors">
+                        <label class="flex items-center gap-2 font-label-md text-xs font-bold text-on-surface mb-2" for="quotaEmployee">
+                            <span class="material-symbols-outlined text-primary text-[18px]">badge</span>
+                            Employee
+                        </label>
+                        <input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary quota-input" id="quotaEmployee" name="quotas[Employee]" min="0" placeholder="e.g., 50" type="number"/>
+                    </div>
+                    <div class="border border-outline-variant rounded-xl p-4 bg-surface-container-low/50 hover:border-primary transition-colors">
+                        <label class="flex items-center gap-2 font-label-md text-xs font-bold text-on-surface mb-2" for="quotaExternal">
+                            <span class="material-symbols-outlined text-primary text-[18px]">public</span>
+                            External
+                        </label>
+                        <input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary quota-input" id="quotaExternal" name="quotas[External]" min="0" placeholder="e.g., 20" type="number"/>
+                    </div>
+                    <div class="border border-outline-variant rounded-xl p-4 bg-surface-container-low/50 hover:border-primary transition-colors">
+                        <label class="flex items-center gap-2 font-label-md text-xs font-bold text-on-surface mb-2" for="quotaManager">
+                            <span class="material-symbols-outlined text-primary text-[18px]">manage_accounts</span>
+                            Manager
+                        </label>
+                        <input class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary quota-input" id="quotaManager" name="quotas[Manager]" min="0" placeholder="e.g., 10" type="number"/>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Approval Workflow -->
+            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 sm:p-8 shadow-sm">
+                <div class="border-b border-outline-variant pb-4 mb-6 flex justify-between items-center">
+                    <h2 class="font-headline-md text-lg font-bold text-on-surface flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">verified_user</span>
+                        Approval Workflow
+                    </h2>
+                    <button id="addApprovalStepBtn" class="text-xs font-semibold text-primary bg-primary/10 border border-primary/20 hover:bg-primary hover:text-white px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1" type="button">
+                        <span class="material-symbols-outlined text-[16px]">add</span>
+                        Add Step
+                    </button>
+                </div>
+                <p class="text-xs text-on-surface-variant mb-6">Set the sequence of approver roles required for this event.</p>
+                <div class="space-y-3" id="approvalStepsContainer">
+                    <div class="approval-step flex items-center gap-3 bg-surface-container-low/50 border border-outline-variant rounded-xl p-3">
+                        <span class="material-symbols-outlined text-outline cursor-grab">drag_indicator</span>
+                        <div class="step-num w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs">1</div>
+                        <div class="flex-1">
+                            <select name="approval_bands[]" class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary">
+                                <option value="Manager" selected>Manager / Department Head</option>
+                                <option value="Sub-Admin">Sub-Admin</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                        <button class="remove-step-btn text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-error-container" type="button">
+                            <span class="material-symbols-outlined text-[20px]">delete</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Visual Dynamic Registration Form Builder -->
+            <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 sm:p-8 shadow-sm">
+                <div class="border-b border-outline-variant pb-4 mb-6 flex justify-between items-center flex-wrap gap-3">
+                    <div>
+                        <h2 class="font-headline-md text-lg font-bold text-on-surface flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary">tune</span>
+                            Dynamic Registration Form Builder
+                        </h2>
+                        <p class="text-xs text-on-surface-variant mt-1">Customize questions for registrants without writing any JSON.</p>
+                    </div>
+                    <button id="addFieldBtn" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-primary/10 text-primary border border-primary/20 hover:bg-primary hover:text-white rounded-full text-xs transition-all font-semibold">
+                        <span class="material-symbols-outlined text-[16px]">add_circle</span>
+                        + Add Question Field
+                    </button>
+                </div>
+
+                <div id="visualFieldsContainer" class="space-y-4 mb-4">
+                    <!-- Dynamic field rows rendered by JS -->
+                </div>
+
+                <input type="hidden" name="form_schema" id="form_schema_hidden" value='[{"name": "department", "label": "Department", "type": "select", "required": true, "options": ["Engineering", "HR", "Marketing", "Sales", "Design"]}, {"name": "dietary", "label": "Dietary Requirements", "type": "text", "required": false}]'>
+
+                <details class="mt-4 pt-4 border-t border-outline-variant/60">
+                    <summary class="cursor-pointer text-xs font-semibold text-on-surface-variant hover:text-primary transition-colors inline-flex items-center gap-1 select-none">
+                        <span class="material-symbols-outlined text-[16px]">code</span>
+                        Advanced: View Generated JSON Data
+                    </summary>
+                    <div class="mt-3">
+                        <textarea id="rawJsonTextarea" class="w-full p-3 font-mono text-xs rounded-md border border-outline-variant bg-surface-container-low text-on-surface focus:outline-none" rows="4" readonly></textarea>
+                    </div>
+                </details>
+            </section>
+
+            <!-- Action Bar -->
+            <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6 border-t border-outline-variant">
+                <a class="h-10 px-6 rounded-full border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-md text-xs font-semibold hover:bg-surface-container-low transition-colors flex items-center justify-center" href="<?= site_url('admin/events'); ?>">
+                    Cancel
+                </a>
+                <button class="h-10 px-8 rounded-full bg-primary text-white font-label-md text-xs font-semibold hover:bg-primary/90 transition-colors shadow-sm" type="submit">
+                    Create Event
                 </button>
             </div>
-            <div id="bandContainer" class="space-y-3">
-                <div class="grid grid-cols-12 gap-3 items-center band-row">
-                    <div class="col-span-2 text-xs font-semibold text-slate-400">Level 1</div>
-                    <div class="col-span-9">
-                        <select name="band_role[]" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                            <option value="Sub-Admin">Sub-Admin (Approver)</option>
+        </form>
+    </main>
+
+    <script>
+        // Total Capacity calculation
+        const inputs = document.querySelectorAll('.quota-input');
+        const totalDisplay = document.getElementById('totalCapacity');
+
+        function calculateTotal() {
+            let total = 0;
+            inputs.forEach(input => {
+                const val = parseInt(input.value) || 0;
+                total += val;
+            });
+            if (totalDisplay) {
+                totalDisplay.textContent = total;
+            }
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+        });
+        calculateTotal();
+
+        // Dynamic Approval Steps handling
+        const approvalStepsContainer = document.getElementById('approvalStepsContainer');
+        const addApprovalStepBtn = document.getElementById('addApprovalStepBtn');
+
+        function updateStepNumbers() {
+            const steps = approvalStepsContainer.querySelectorAll('.approval-step');
+            steps.forEach((step, index) => {
+                const numBadge = step.querySelector('.step-num');
+                if (numBadge) {
+                    numBadge.textContent = index + 1;
+                    if (index === 0) {
+                        numBadge.className = 'step-num w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs';
+                    } else {
+                        numBadge.className = 'step-num w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold text-xs';
+                    }
+                }
+            });
+        }
+
+        if (addApprovalStepBtn && approvalStepsContainer) {
+            addApprovalStepBtn.addEventListener('click', () => {
+                const currentCount = approvalStepsContainer.querySelectorAll('.approval-step').length;
+                const newStep = document.createElement('div');
+                newStep.className = 'approval-step flex items-center gap-3 bg-surface-container-low/50 border border-outline-variant rounded-xl p-3';
+                newStep.innerHTML = `
+                    <span class="material-symbols-outlined text-outline cursor-grab">drag_indicator</span>
+                    <div class="step-num w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold text-xs">${currentCount + 1}</div>
+                    <div class="flex-1">
+                        <select name="approval_bands[]" class="w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary">
+                            <option value="Manager">Manager / Department Head</option>
+                            <option value="Sub-Admin" selected>Sub-Admin</option>
                             <option value="Admin">Admin</option>
                         </select>
                     </div>
-                    <div class="col-span-1 text-center">
-                        <button type="button" class="remove-row text-red-400 hover:text-red-300 text-sm">&times;</button>
+                    <button class="remove-step-btn text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-error-container" type="button">
+                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
+                `;
+                approvalStepsContainer.appendChild(newStep);
+                attachRemoveEvent(newStep.querySelector('.remove-step-btn'));
+                updateStepNumbers();
+            });
+        }
+
+        function attachRemoveEvent(btn) {
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                const step = this.closest('.approval-step');
+                if (step && approvalStepsContainer.querySelectorAll('.approval-step').length > 1) {
+                    step.remove();
+                    updateStepNumbers();
+                }
+            });
+        }
+
+        document.querySelectorAll('.remove-step-btn').forEach(btn => attachRemoveEvent(btn));
+
+        // Visual Dynamic Form Builder Logic
+        (function() {
+            const hiddenInput = document.getElementById('form_schema_hidden');
+            const container = document.getElementById('visualFieldsContainer');
+            const addBtn = document.getElementById('addFieldBtn');
+            const rawJsonTextarea = document.getElementById('rawJsonTextarea');
+
+            if (!hiddenInput || !container || !addBtn) return;
+
+            let initialData = [];
+            try {
+                initialData = JSON.parse(hiddenInput.value || '[]');
+            } catch(e) {
+                initialData = [
+                    { name: 'department', label: 'Department', type: 'select', required: true, options: ['Engineering', 'HR', 'Marketing', 'Sales', 'Design'] },
+                    { name: 'dietary', label: 'Dietary Requirements', type: 'text', required: false }
+                ];
+            }
+
+            if (!Array.isArray(initialData) || initialData.length === 0) {
+                initialData = [
+                    { name: 'department', label: 'Department', type: 'select', required: true, options: ['Engineering', 'HR', 'Marketing', 'Sales', 'Design'] },
+                    { name: 'dietary', label: 'Dietary Requirements', type: 'text', required: false }
+                ];
+            }
+
+            function sanitizeName(str) {
+                return (str || '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '') || 'field';
+            }
+
+            function syncSchema() {
+                const fieldCards = container.querySelectorAll('.form-field-card');
+                const schema = [];
+
+                fieldCards.forEach((card, index) => {
+                    const labelInput = card.querySelector('.field-label');
+                    const typeSelect = card.querySelector('.field-type');
+                    const reqCheckbox = card.querySelector('.field-required');
+                    const optionsInput = card.querySelector('.field-options');
+
+                    const label = labelInput ? labelInput.value.trim() : `Question ${index + 1}`;
+                    const type = typeSelect ? typeSelect.value : 'text';
+                    const required = reqCheckbox ? reqCheckbox.checked : false;
+
+                    const fieldObj = {
+                        name: sanitizeName(label) || `field_${index + 1}`,
+                        label: label || `Question ${index + 1}`,
+                        type: type,
+                        required: required
+                    };
+
+                    if (type === 'select' && optionsInput) {
+                        const rawOptions = optionsInput.value;
+                        const optsArray = rawOptions.split(',').map(s => s.trim()).filter(Boolean);
+                        fieldObj.options = optsArray.length > 0 ? optsArray : ['Option 1', 'Option 2'];
+                    }
+
+                    schema.push(fieldObj);
+                });
+
+                const jsonString = JSON.stringify(schema);
+                hiddenInput.value = jsonString;
+                if (rawJsonTextarea) {
+                    rawJsonTextarea.value = JSON.stringify(schema, null, 2);
+                }
+            }
+
+            function renderFieldCard(field = {}) {
+                const card = document.createElement('div');
+                card.className = 'form-field-card bg-surface-container-low/50 border border-outline-variant rounded-xl p-4 transition-all hover:border-primary/50 relative group shadow-sm';
+                
+                const type = field.type || 'text';
+                const label = field.label || '';
+                const required = field.required !== false;
+                const optionsStr = Array.isArray(field.options) ? field.options.join(', ') : (field.options || '');
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-3 mb-3 pb-2 border-b border-outline-variant/60">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-outline cursor-grab">drag_indicator</span>
+                            <span class="font-label-md text-xs font-bold text-primary uppercase tracking-wider">Question Field</span>
+                        </div>
+                        <button type="button" class="remove-field-btn text-on-surface-variant hover:text-error transition-colors p-1 rounded-full hover:bg-error-container" title="Delete Question">
+                            <span class="material-symbols-outlined text-[20px]">delete</span>
+                        </button>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Section 4: Dynamic Form Builder -->
-        <div class="bg-slate-800 border border-slate-700/80 rounded-xl p-6 shadow-md">
-            <h2 class="text-lg font-semibold text-white border-b border-slate-700 pb-2 mb-4">4. Dynamic Registration Form Fields</h2>
-            <div class="flex items-center space-x-3 mb-4">
-                <input type="text" id="fieldName" placeholder="Field Label (e.g. T-Shirt Size)" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                <select id="fieldType" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                    <option value="text">Text Input</option>
-                    <option value="select">Dropdown Select</option>
-                </select>
-                <button type="button" id="addFieldBtn" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-4 py-2.5 rounded-lg">
-                    Add Field
-                </button>
-            </div>
-            <div id="dynamicFieldsPreview" class="space-y-2 mb-4">
-                <!-- Dynamic Field Badges -->
-            </div>
-            <input type="hidden" name="form_schema" id="formSchemaInput" value="[]">
-        </div>
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                        <div class="md:col-span-5">
+                            <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">Question Label *</label>
+                            <input type="text" class="field-label w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary" placeholder="e.g., Department or T-Shirt Size" value="${escapeHtml(label)}"/>
+                        </div>
 
-        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
-            Publish Event
-        </button>
-    </form>
-</div>
+                        <div class="md:col-span-4">
+                            <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">Answer Type</label>
+                            <select class="field-type w-full h-10 px-3 rounded-md border border-outline-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary">
+                                <option value="text" ${type === 'text' ? 'selected' : ''}>Short Text</option>
+                                <option value="select" ${type === 'select' ? 'selected' : ''}>Dropdown Select</option>
+                                <option value="textarea" ${type === 'textarea' ? 'selected' : ''}>Long Text Area</option>
+                                <option value="number" ${type === 'number' ? 'selected' : ''}>Number Input</option>
+                            </select>
+                        </div>
 
-<script>
-let dynamicFields = [];
+                        <div class="md:col-span-3 flex items-center pt-5">
+                            <label class="inline-flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-on-surface">
+                                <input type="checkbox" class="field-required rounded border-outline-variant text-primary focus:ring-primary h-4 w-4" ${required ? 'checked' : ''}/>
+                                <span>Mandatory Question</span>
+                            </label>
+                        </div>
 
-function updateSchemaInput() {
-    $('#formSchemaInput').val(JSON.stringify(dynamicFields));
-    renderFieldsPreview();
-}
+                        <div class="options-wrapper md:col-span-12 ${type === 'select' ? '' : 'hidden'}">
+                            <label class="block font-label-md text-xs font-semibold text-primary mb-1">
+                                Dropdown Choices (separate choices with commas) *
+                            </label>
+                            <input type="text" class="field-options w-full h-10 px-3 rounded-md border border-primary/40 bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary" placeholder="e.g. Engineering, HR, Marketing, Sales, Design" value="${escapeHtml(optionsStr)}"/>
+                            <span class="text-[11px] text-on-surface-variant mt-1 block">Registrants will select one of these options during sign-up.</span>
+                        </div>
+                    </div>
+                `;
 
-function renderFieldsPreview() {
-    const $container = $('#dynamicFieldsPreview');
-    $container.empty();
-    dynamicFields.forEach((field, index) => {
-        $container.append(`
-            <div class="flex items-center justify-between bg-slate-900 p-3 rounded-lg border border-slate-700/60 text-xs">
-                <div>
-                    <strong class="text-slate-200">${field.label}</strong>
-                    <span class="text-slate-400 font-mono ml-2">(${field.type})</span>
-                </div>
-                <button type="button" onclick="removeField(${index})" class="text-red-400 hover:underline">Remove</button>
-            </div>
-        `);
-    });
-}
+                container.appendChild(card);
 
-function removeField(index) {
-    dynamicFields.splice(index, 1);
-    updateSchemaInput();
-}
+                const labelInput = card.querySelector('.field-label');
+                const typeSelect = card.querySelector('.field-type');
+                const reqCheck = card.querySelector('.field-required');
+                const optsInput = card.querySelector('.field-options');
+                const optsWrapper = card.querySelector('.options-wrapper');
+                const deleteBtn = card.querySelector('.remove-field-btn');
 
-$(document).ready(function() {
-    $('#addFieldBtn').click(function() {
-        const label = $('#fieldName').val().trim();
-        const type = $('#fieldType').val();
-        if (!label) return alert('Enter a field label');
+                typeSelect.addEventListener('change', () => {
+                    if (typeSelect.value === 'select') {
+                        optsWrapper.classList.remove('hidden');
+                    } else {
+                        optsWrapper.classList.add('hidden');
+                    }
+                    syncSchema();
+                });
 
-        const key = label.toLowerCase().replace(/[^a-z0-9]/g, '_');
-        dynamicFields.push({ name: key, label: label, type: type, required: true, options: type === 'select' ? ['Option A', 'Option B'] : [] });
-        $('#fieldName').val('');
-        updateSchemaInput();
-    });
+                labelInput.addEventListener('input', syncSchema);
+                reqCheck.addEventListener('change', syncSchema);
+                if (optsInput) optsInput.addEventListener('input', syncSchema);
 
-    $('#addQuotaRow').click(function() {
-        $('#quotaContainer').append(`
-            <div class="grid grid-cols-12 gap-3 items-center quota-row">
-                <div class="col-span-6">
-                    <select name="quota_role[]" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                        <option value="Employee">Employee</option>
-                        <option value="Manager">Manager</option>
-                        <option value="External">External</option>
-                        <option value="User">User</option>
-                    </select>
-                </div>
-                <div class="col-span-5">
-                    <input type="number" name="quota_limit[]" placeholder="Capacity Limit" value="10" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                </div>
-                <div class="col-span-1 text-center">
-                    <button type="button" class="remove-row text-red-400 hover:text-red-300 text-sm">&times;</button>
-                </div>
-            </div>
-        `);
-    });
+                deleteBtn.addEventListener('click', () => {
+                    if (container.querySelectorAll('.form-field-card').length > 1) {
+                        card.remove();
+                        syncSchema();
+                    } else {
+                        alert('Form must have at least one question field.');
+                    }
+                });
 
-    $('#addBandRow').click(function() {
-        const level = $('.band-row').length + 1;
-        $('#bandContainer').append(`
-            <div class="grid grid-cols-12 gap-3 items-center band-row">
-                <div class="col-span-2 text-xs font-semibold text-slate-400">Level ${level}</div>
-                <div class="col-span-9">
-                    <select name="band_role[]" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100">
-                        <option value="Sub-Admin">Sub-Admin (Approver)</option>
-                        <option value="Admin">Admin</option>
-                    </select>
-                </div>
-                <div class="col-span-1 text-center">
-                    <button type="button" class="remove-row text-red-400 hover:text-red-300 text-sm">&times;</button>
-                </div>
-            </div>
-        `);
-    });
+                syncSchema();
+            }
 
-    $(document).on('click', '.remove-row', function() {
-        $(this).closest('.grid').remove();
-    });
-});
-</script>
+            function escapeHtml(str) {
+                return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#039;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
 
+            container.innerHTML = '';
+            initialData.forEach(f => renderFieldCard(f));
+
+            addBtn.addEventListener('click', () => {
+                renderFieldCard({ label: 'New Question', type: 'text', required: false, options: [] });
+            });
+        })();
+
+        // Image Preview Handler
+        const eventImageInput = document.getElementById('eventImageInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        const imageUploadPlaceholder = document.getElementById('imageUploadPlaceholder');
+
+        if (eventImageInput && imagePreview && imagePreviewContainer && imageUploadPlaceholder) {
+            eventImageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        imagePreview.src = event.target.result;
+                        imagePreviewContainer.classList.remove('hidden');
+                        imageUploadPlaceholder.classList.add('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -9,14 +9,21 @@ class Auth extends CI_Controller {
 
     public function index() {
         if ($this->session->userdata('user_id')) {
-            redirect('events');
+            $role = $this->session->userdata('role');
+            if ($role === 'Admin') {
+                redirect('admin');
+            } elseif ($role === 'Sub-Admin' || $role === 'Manager') {
+                redirect('approvals');
+            } else {
+                redirect('events');
+            }
         }
         $this->load->view('auth/login');
     }
 
     public function login() {
-        $email = $this->input->post('email');
-        $password = $this->input->post('password');
+        $email = trim($this->input->post('email'));
+        $password = trim($this->input->post('password'));
 
         $user = $this->User_model->get_by_email($email);
 
@@ -28,11 +35,11 @@ class Auth extends CI_Controller {
                 'role' => $user->role
             );
             $this->session->set_userdata($session_data);
-            $this->session->set_flashdata('success', 'Logged in successfully as ' . $user->role);
+            $this->session->set_flashdata('success', 'Logged in successfully as ' . $user->name . ' (' . $user->role . ')');
 
             if ($user->role === 'Admin') {
                 redirect('admin');
-            } elseif ($user->role === 'Sub-Admin') {
+            } elseif ($user->role === 'Sub-Admin' || $user->role === 'Manager') {
                 redirect('approvals');
             } else {
                 redirect('events');
@@ -45,6 +52,6 @@ class Auth extends CI_Controller {
 
     public function logout() {
         $this->session->sess_destroy();
-        redirect('auth');
+        redirect('');
     }
 }

@@ -30,4 +30,8 @@ class Approval_model extends CI_Model {
     public function delete_band($band_id) {
         return $this->db->delete('approval_bands', array('id' => $band_id));
     }
+
+    public function delete_bands_by_event($event_id) {
+        return $this->db->delete('approval_bands', array('event_id' => $event_id));
+    }
 }

@@ -35,4 +35,8 @@ class Quota_model extends CI_Model {
     public function delete_quota($quota_id) {
         return $this->db->delete('event_quotas', array('id' => $quota_id));
     }
+
+    public function delete_quotas_by_event($event_id) {
+        return $this->db->delete('event_quotas', array('event_id' => $event_id));
+    }
 }

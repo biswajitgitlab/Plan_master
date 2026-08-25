@@ -18,4 +18,9 @@ class User_model extends CI_Model {
     public function get_users_by_role($role) {
         return $this->db->get_where('users', array('role' => $role))->result();
     }
+
+    public function create_user($data) {
+        $this->db->insert('users', $data);
+        return $this->db->insert_id();
+    }
 }
